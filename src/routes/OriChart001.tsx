@@ -34,41 +34,47 @@ const Chart = () => {
           type="candlestick"
           series={[
             {
-              data:
-                data?.map((price) => ({
-                  x: new Date(price.time_close),
-                  y: [
-                    parseFloat(price.open),
-                    parseFloat(price.high),
-                    parseFloat(price.low),
-                    parseFloat(price.close),
-                  ],
-                })) || [],
+              name: "Price",
+              // data: data?.map((price) => Number(price.close)) as number[],
+              data: data?.map((price) => parseFloat(price.close)) ?? [],
+              //니꼬샘이 제공해준 https://ohlcv-api.nomadcoders.workers.dev API는 close 데이터가 string이기 때문에 parseFloat를 통해 형 변환을 시켜줘야 합니다!
             },
           ]}
           options={{
+            theme: {
+              mode: "dark",
+            },
             chart: {
-              height: 600,
+              height: 300,
               width: 500,
-              toolbar: { show: false },
+              toolbar: {
+                show: false,
+              },
               background: "transparent",
             },
-
             grid: { show: false },
-            xaxis: {
-              type: "datetime",
+            stroke: {
+              curve: "smooth",
+              width: 3,
             },
             yaxis: {
-              tooltip: {
-                enabled: true,
-              },
+              show: false,
             },
-            plotOptions: {
-              candlestick: {
-                colors: {
-                  upward: "#3C90EB",
-                  downward: "#DF7D46",
-                },
+            xaxis: {
+              axisBorder: { show: false },
+              axisTicks: { show: false },
+              labels: { show: false },
+              type: "datetime",
+              categories: data?.map((price) => +price.time_close * 1000),
+            },
+            fill: {
+              type: "gradient",
+              gradient: { gradientToColors: ["blue"], stops: [0, 100] },
+            },
+            colors: ["red"],
+            tooltip: {
+              y: {
+                formatter: (value) => `$${value.toFixed(2)}`,
               },
             },
           }}

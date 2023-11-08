@@ -10,11 +10,7 @@ const Title = styled.h1`
   font-size: 3rem;
   color: ${(props) => props.theme.accentColor};
 `;
-const Homes = styled.h4`
-  font-size: 0%.9rem;
-  color: ${(props) => props.theme.accentColor};
-  padding: 7px;
-`;
+
 const Loader = styled.span`
   text-align: center;
   display: block;
@@ -31,7 +27,12 @@ const Header = styled.header`
   justify-content: center;
   align-items: center;
 `;
-
+const Homes = styled.h4`
+  font-size: 0%.9rem;
+  color: ${(props) => props.theme.accentColor};
+  padding: 7px;
+  margin-bottom: 0;
+`;
 const Overview = styled.div`
   display: flex;
   justify-content: space-between;
@@ -63,7 +64,7 @@ const Tab = styled.span<{ $isActive: boolean }>`
   font-size: 11px;
   font-weight: 400;
   background-color: rgba(0, 0, 0, 0.5);
-  padding: 11px 0px;
+  padding: 15px 0px;
   border-radius: 10px;
   color: ${(props) =>
     props.$isActive ? props.theme.accentColor : props.theme.textColor};
@@ -206,6 +207,7 @@ function Coin() {
       <Homes>
         <Link to={`/`}>Go Home</Link>
       </Homes>
+
       <Header>
         <Title>
           {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
