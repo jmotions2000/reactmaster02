@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { useQuery } from "react-query";
 import { fetchCoins } from "../api";
+import { useSetRecoilState } from "recoil";
+import { isDarkAtom } from "../atoms";
 
 const Container = styled.div`
   padding: 0 20px;
@@ -14,6 +16,7 @@ const Container = styled.div`
 const Header = styled.header`
   height: 10vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 `;
@@ -21,11 +24,12 @@ const Header = styled.header`
 const CoinList = styled.ul``;
 
 const Coin = styled.li`
-  background-color: white;
-  color: ${(props) => props.theme.bgColor};
+  background-color: ${(props) => props.theme.cardBgColor};
+  color: ${(props) => props.theme.textColor};
 
   border-radius: 25px;
   margin-bottom: 15px;
+  border: 1px solid white;
   a {
     display: flex;
     align-items: center;
@@ -63,8 +67,37 @@ interface ICoin {
   is_active: boolean;
   type: string;
 }
+const IButton = styled.button`
+  margin-left: 20px;
+  padding: 5px 15px;
+  border-radius: 25px;
+  border: none;
+`;
+
+const ButtonView = styled.div`
+  display: flex;
+  justify-content: right;
+  align-items: right;
+
+  padding: 10px 20px;
+  border-radius: 10px;
+`;
+const ButtonViewItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: right;
+  button {
+    position: relative;
+    left: 150px;
+    font-size: 10px;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+`;
 
 function Coins() {
+  const setDarkAtom = useSetRecoilState(isDarkAtom);
+  const toggleDarkAtom = () => setDarkAtom((prev) => !prev);
   const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins);
   /* ..// const [coins, setCoins] = useState<CoinInterface[]>([]);
   // const [loading, setLoading] = useState(true);
@@ -83,8 +116,14 @@ function Coins() {
       <Helmet>
         <title>COINS</title>
       </Helmet>
+
       <Header>
-        <Title>코인</Title>
+        <ButtonView>
+          <ButtonViewItem>
+            <IButton onClick={toggleDarkAtom}>Mode</IButton>
+          </ButtonViewItem>
+        </ButtonView>
+        <Title>Coins</Title>
       </Header>
       {isLoading ? (
         <Loader>"LOading..."</Loader>
