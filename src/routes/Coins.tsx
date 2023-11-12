@@ -123,7 +123,7 @@ function Coins() {
             <IButton onClick={toggleDarkAtom}>Mode</IButton>
           </ButtonViewItem>
         </ButtonView>
-        <Title>Coins</Title>
+        <Title>Coins III</Title>
       </Header>
       {isLoading ? (
         <Loader>"LOading..."</Loader>
